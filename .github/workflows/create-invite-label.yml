@@ -7,6 +7,7 @@ jobs:
     steps:
       - name: create invite label
         uses: actions-cool/issues-helper@v3
+        continue-on-error: true
         with:
           actions: 'create-label'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
