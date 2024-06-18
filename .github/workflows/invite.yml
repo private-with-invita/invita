@@ -1,0 +1,33 @@
+name: Invite user
+on:
+  issues:
+    types: opened
+
+jobs:
+  invite-user:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Read yaml
+        id: issue-template
+        uses: teunmooij/yaml@v1
+        with:
+          from-file: '.github/ISSUE_TEMPLATE/request-access.yml'
+      - name: Invite user
+        id: manager-collaborators-action
+        uses: gateixeira/manage-collaborators-action@v1.0.1
+        if: ${{ contains(github.event.issue.labels.*.name, 'invite') && fromJson(steps.issue-template.outputs.data).title == github.event.issue.title }}
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repositories: private-with-invita/private-repository
+          users: ${{ github.event.issue.user.login }}
+          role: Read
+          action: add
+      - name: Close issue
+        uses: actions-cool/issues-helper@v3
+        if: ${{ contains(github.event.issue.labels.*.name, 'invite') && fromJson(steps.issue-template.outputs.data).title == github.event.issue.title }}
+        with:
+          actions: 'close-issue'
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}

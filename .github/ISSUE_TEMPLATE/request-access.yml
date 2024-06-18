@@ -1,0 +1,18 @@
+name:  Request for access private repo
+description: 申请主项目访问权限
+labels: ["invite"]
+title: "本人同意遵守行为协议，申请主项目访问权限"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 行为守则
+        守则正文
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 行为守则
+      description: 提交本issue代表同意本守则内容
+      options:
+        - label: 我同意本守则内容
+          required: true

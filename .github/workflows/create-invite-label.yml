@@ -1,0 +1,13 @@
+name: create invite label
+on: push
+
+jobs:
+  create-invite-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create invite label
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-label'
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          label-name: 'invite'
